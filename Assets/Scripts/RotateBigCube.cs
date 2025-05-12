@@ -74,7 +74,8 @@ public class RotateBigCube : MonoBehaviour
             {
                 target.transform.Rotate(0, 0, 90, Space.World);
             }
-            else if (DownRightSwipe(currentSwipe)) {
+            else if (DownRightSwipe(currentSwipe))
+            {
                 target.transform.Rotate(-90, 0, 0, Space.World);
             }
         }

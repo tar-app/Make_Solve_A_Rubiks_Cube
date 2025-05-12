@@ -45,6 +45,7 @@ Thumbs.db
 # VSCode
 .vscode/
 *.code-workspace
+.vs/
 
 # Crashlytics
 crashlytics-build.properties
