@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 public class RotateBigCube : MonoBehaviour
 {
@@ -20,7 +22,7 @@ public class RotateBigCube : MonoBehaviour
 
     void Drag()
     {
-        if (Mouse.current.rightButton.isPressed)
+        if (Mouse.current.leftButton.isPressed)
         {
             mouseDelta = (Vector3)Mouse.current.position.ReadValue() - previousMousePosition;
             mouseDelta *= 0.1f;
@@ -40,12 +42,12 @@ public class RotateBigCube : MonoBehaviour
 
     void Swipe()
     {
-        if (Mouse.current.rightButton.wasPressedThisFrame)
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             firstPressPos = Mouse.current.position.ReadValue();
         }
 
-        if (Mouse.current.rightButton.wasReleasedThisFrame)
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
             secondPressPos = Mouse.current.position.ReadValue();
             currentSwipe = secondPressPos - firstPressPos;
