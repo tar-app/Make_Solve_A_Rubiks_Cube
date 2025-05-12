@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,7 +26,7 @@ public class RotateBigCube : MonoBehaviour
         {
             mouseDelta = (Vector3)Mouse.current.position.ReadValue() - previousMousePosition;
             mouseDelta *= 0.1f;
-            transform.rotation = Quaternion.Euler(mouseDelta.y, -mouseDelta.x, 0) * transform.rotation;
+            transform.rotation = Quaternion.Euler(mouseDelta.z, -mouseDelta.x, -mouseDelta.y) * transform.rotation;
         }
         else
         {
@@ -60,19 +62,28 @@ public class RotateBigCube : MonoBehaviour
             {
                 target.transform.Rotate(0, -90, 0, Space.World);
             }
+            else if (UpSwipe(currentSwipe))
+            {
+                target.transform.Rotate(0, 0, 90, Space.World);
+            }
+            else if (DownSwipe(currentSwipe))
+            {
+                target.transform.Rotate(0, 0, -90, Space.World);
+            }
             else if (UpLeftSwipe(currentSwipe))
             {
                 target.transform.Rotate(90, 0, 0, Space.World);
             }
             else if (UpRightSwipe(currentSwipe))
             {
-                target.transform.Rotate(0, 0, -90, Space.World);
+                target.transform.Rotate(-90, 0, 0, Space.World);
             }
             else if (DownLeftSwipe(currentSwipe))
             {
-                target.transform.Rotate(0, 0, 90, Space.World);
+                target.transform.Rotate(90, 0, 0, Space.World);
             }
-            else if (DownRightSwipe(currentSwipe)) {
+            else if (DownRightSwipe(currentSwipe))
+            {
                 target.transform.Rotate(-90, 0, 0, Space.World);
             }
         }
@@ -80,31 +91,35 @@ public class RotateBigCube : MonoBehaviour
 
     bool LeftSwipe(Vector2 swipe)
     {
-        return currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f;
+        return swipe.x < 0 && swipe.y > -0.5f && swipe.y < 0.5f;
     }
 
     bool RightSwipe(Vector2 swipe)
     {
-        return currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f;
+        return swipe.x > 0 && swipe.y > -0.5f && swipe.y < 0.5f;
     }
-
+    bool UpSwipe(Vector2 swipe)
+    {
+        return swipe.y < 0 && swipe.x > -0.5f && swipe.x < 0.5f;
+    }
+    bool DownSwipe(Vector2 swipe)
+    {
+        return swipe.y > 0 && swipe.x > -0.5f && swipe.x < 0.5f;
+    }
     bool UpLeftSwipe(Vector2 swipe)
     {
-        return currentSwipe.y > 0 && currentSwipe.x < 0f;
+        return swipe.x < -0.5f && swipe.y < -0.5f;
     }
-
     bool UpRightSwipe(Vector2 swipe)
     {
-        return currentSwipe.y > 0 && currentSwipe.x > 0f;
+        return swipe.x > 0.5f && swipe.y < -0.5f;
     }
-
     bool DownLeftSwipe(Vector2 swipe)
     {
-        return currentSwipe.y < 0 && currentSwipe.x < 0f;
+        return swipe.x < -0.5f && swipe.y > 0.5f;
     }
-
     bool DownRightSwipe(Vector2 swipe)
     {
-        return currentSwipe.y < 0 && currentSwipe.x > 0f;
+        return swipe.x > 0.5f && swipe.y > 0.5f;
     }
 }
