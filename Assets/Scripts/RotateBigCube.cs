@@ -22,7 +22,7 @@ public class RotateBigCube : MonoBehaviour
 
     void Drag()
     {
-        if (Mouse.current.leftButton.isPressed)
+        if (Mouse.current.rightButton.isPressed)
         {
             mouseDelta = (Vector3)Mouse.current.position.ReadValue() - previousMousePosition;
             mouseDelta *= 0.1f;
@@ -42,12 +42,12 @@ public class RotateBigCube : MonoBehaviour
 
     void Swipe()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             firstPressPos = Mouse.current.position.ReadValue();
         }
 
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        if (Mouse.current.rightButton.wasReleasedThisFrame)
         {
             secondPressPos = Mouse.current.position.ReadValue();
             currentSwipe = secondPressPos - firstPressPos;
