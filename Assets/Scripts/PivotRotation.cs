@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class PivotRotation : MonoBehaviour
 {
-
     private List<GameObject> activeSide;
     private Vector3 localForward;
     private Vector2 mouseRef;
@@ -26,7 +25,6 @@ public class PivotRotation : MonoBehaviour
         cubeState = FindFirstObjectByType<CubeState>();
     }
 
-    
     void Update()
     {
         if (dragging)
@@ -87,9 +85,16 @@ public class PivotRotation : MonoBehaviour
     public void Rotate(List<GameObject> side)
     {
         activeSide = side;
-        mouseRef = Mouse.current.position.ReadValue();
-        dragging = true;
-        localForward = Vector3.zero - side[4].transform.parent.transform.localPosition;
+
+    }
+
+    public void StartAutoRotate(List<GameObject> side, float angle)
+    {
+        cubeState.PickUp(side);
+        Vector3 localForward = Vector3.zero - side[4].transform.parent.transform.localPosition;
+        targetQuaternion = Quaternion.AngleAxis(angle, localForward) * transform.localRotation;
+        activeSide = side;
+        autoRotating = true;
     }
 
     public void RotateToRightAngle()
@@ -115,7 +120,7 @@ public class PivotRotation : MonoBehaviour
             cubeState.PutDown(activeSide, transform.parent);
 
             readCube.ReadState();
-
+            CubeState.autoRotating = false;
             autoRotating = false;
             dragging = false;
         }

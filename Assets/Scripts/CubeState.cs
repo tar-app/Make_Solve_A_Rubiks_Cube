@@ -13,6 +13,9 @@ public class CubeState : MonoBehaviour
     public List<GameObject> front = new List<GameObject>();
     public List<GameObject> back = new List<GameObject>();
 
+    public static bool autoRotating = false;
+    public static bool started = false;
+
     void Start()
     {
 
@@ -31,8 +34,6 @@ public class CubeState : MonoBehaviour
                 face.transform.parent.transform.parent = cubeSide[4].transform.parent;
             }
         }
-
-        cubeSide[4].transform.parent.GetComponent<PivotRotation>().Rotate(cubeSide);
     }
 
     public void PutDown(List<GameObject> littleCubes, Transform pivot)
