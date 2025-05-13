@@ -12,13 +12,13 @@ public class Automate : MonoBehaviour
         "U'", "D'", "L'", "R'", "F'", "B2'",
     };
 
-    private CubeState cubeState;
     private ReadCube readCube;
+    private CubeState cubeState;
 
     void Start()
     {
-        cubeState = FindFirstObjectByType<CubeState>();
         readCube = FindFirstObjectByType<ReadCube>();
+        cubeState = FindFirstObjectByType<CubeState>();
     }
 
 

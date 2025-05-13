@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class CubeMap : MonoBehaviour
 {
-
     CubeState cubeState;
 
     public Transform up;

@@ -25,9 +25,9 @@ public class PivotRotation : MonoBehaviour
         cubeState = FindFirstObjectByType<CubeState>();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        if (dragging)
+        if (dragging && !autoRotating)
         {
             SpinSide(activeSide);
             if (Mouse.current.leftButton.wasReleasedThisFrame)
@@ -85,7 +85,8 @@ public class PivotRotation : MonoBehaviour
     public void Rotate(List<GameObject> side)
     {
         activeSide = side;
-
+        mouseRef = Mouse.current.position.ReadValue();
+        dragging = true;
     }
 
     public void StartAutoRotate(List<GameObject> side, float angle)
@@ -104,7 +105,7 @@ public class PivotRotation : MonoBehaviour
         vec.y = Mathf.Round(vec.y / 90) * 90;
         vec.z = Mathf.Round(vec.z / 90) * 90;
 
-        targetQuaternion.eulerAngles = vec;
+        targetQuaternion = Quaternion.Euler(vec);
         autoRotating = true;
     }
 

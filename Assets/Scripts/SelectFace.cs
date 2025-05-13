@@ -6,8 +6,8 @@ using UnityEditor;
 
 public class SelectFace : MonoBehaviour
 {
-    CubeState cubeState;
     ReadCube readCube;
+    CubeState cubeState;
     int layerMask = 1 << 8;
 
     void Start()

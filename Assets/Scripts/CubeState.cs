@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class CubeState : MonoBehaviour
 {
-
     public List<GameObject> up = new List<GameObject>();
     public List<GameObject> down = new List<GameObject>();
     public List<GameObject> left = new List<GameObject>();
@@ -45,5 +44,28 @@ public class CubeState : MonoBehaviour
                 littleCube.transform.parent.transform.parent = pivot;
             }
         }
+    }
+
+    string GetSidesString(List<GameObject> side)
+    {
+        string sideString = "";
+        foreach (GameObject face in side)
+        {
+            sideString += face.name[0].ToString();
+        }
+        return sideString;
+    }
+
+    public string GetStateString()
+    {
+        string stateString = "";
+        stateString += GetSidesString(up);
+        stateString += GetSidesString(right);
+        stateString += GetSidesString(front);
+        stateString += GetSidesString(down);
+        stateString += GetSidesString(left);
+        stateString += GetSidesString(back);
+        return stateString;
+
     }
 }
