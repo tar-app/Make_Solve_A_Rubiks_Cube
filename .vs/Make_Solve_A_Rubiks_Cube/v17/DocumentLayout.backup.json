@@ -3,32 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|c:\\users\\am\\desktop\\unity20250418\\make_solve_a_rubiks_cube\\assets\\scripts\\rotatebigcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rotatebigcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\readcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\readcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\cubestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cubestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\cubemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cubemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\selectface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\selectface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\pivotrotation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\pivotrotation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\automate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\automate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|c:\\users\\am\\desktop\\unity20250418\\make_solve_a_rubiks_cube\\assets\\scripts\\solvetwophase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\solvetwophase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\selectface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\selectface.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\cubemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cubemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\cubestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\cubestate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|c:\\users\\am\\desktop\\unity20250418\\make_solve_a_rubiks_cube\\assets\\scripts\\rotatebigcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\rotatebigcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\assets\\scripts\\readcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{546CE792-F00E-174F-4FBB-8F61F74B8149}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\readcube.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,79 +50,98 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
+              "Title": "SolveTwoPhase.cs",
+              "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\SolveTwoPhase.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\SolveTwoPhase.cs",
+              "ToolTip": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\SolveTwoPhase.cs",
+              "RelativeToolTip": "Assets\\Scripts\\SolveTwoPhase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-13T03:30:56.76Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Automate.cs",
               "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\Automate.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\Automate.cs",
               "ToolTip": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\Automate.cs",
               "RelativeToolTip": "Assets\\Scripts\\Automate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T02:05:05.673Z"
+              "WhenOpened": "2025-05-13T02:05:05.673Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "PivotRotation.cs",
               "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\PivotRotation.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\PivotRotation.cs",
               "ToolTip": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\PivotRotation.cs",
               "RelativeToolTip": "Assets\\Scripts\\PivotRotation.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHEAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-13T00:08:49.359Z"
+              "WhenOpened": "2025-05-13T00:08:49.359Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "SelectFace.cs",
               "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\SelectFace.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\SelectFace.cs",
               "ToolTip": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\SelectFace.cs",
               "RelativeToolTip": "Assets\\Scripts\\SelectFace.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAAIwAcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T23:55:16.472Z"
+              "WhenOpened": "2025-05-12T23:55:16.472Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "CubeMap.cs",
               "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\CubeMap.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CubeMap.cs",
               "ToolTip": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\CubeMap.cs",
               "RelativeToolTip": "Assets\\Scripts\\CubeMap.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T23:49:47.44Z"
+              "WhenOpened": "2025-05-12T23:49:47.44Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "CubeState.cs",
               "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\CubeState.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\CubeState.cs",
               "ToolTip": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\CubeState.cs",
               "RelativeToolTip": "Assets\\Scripts\\CubeState.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T23:49:44.85Z"
+              "WhenOpened": "2025-05-12T23:49:44.85Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "ReadCube.cs",
               "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\ReadCube.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ReadCube.cs",
               "ToolTip": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\ReadCube.cs",
               "RelativeToolTip": "Assets\\Scripts\\ReadCube.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF8AAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-12T23:49:42.409Z"
+              "WhenOpened": "2025-05-12T23:49:42.409Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "RotateBigCube.cs",
               "DocumentMoniker": "C:\\Users\\AM\\Desktop\\Unity20250418\\Make_Solve_A_Rubiks_Cube\\Assets\\Scripts\\RotateBigCube.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\RotateBigCube.cs",
