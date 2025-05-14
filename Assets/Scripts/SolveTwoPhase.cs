@@ -35,6 +35,7 @@ public class SolveTwoPhase : MonoBehaviour
             // 解法を求める処理を実行
             Solver();
         }
+
     }
 
     // 2段階法による解法を計算する処理

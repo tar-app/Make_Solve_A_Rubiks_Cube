@@ -325,6 +325,7 @@ GameObject:
   - component: {fileID: 35795530}
   - component: {fileID: 35795529}
   - component: {fileID: 35795528}
+  - component: {fileID: 35795531}
   m_Layer: 5
   m_Name: Solve
   m_TagString: Untagged
@@ -446,6 +447,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 35795526}
   m_CullTransparentMesh: 1
+--- !u!114 &35795531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35795526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c81de48797b37c4fa99a3349692a9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  solveButton: {fileID: 35795528}
 --- !u!1 &45795161
 GameObject:
   m_ObjectHideFlags: 0
@@ -3457,6 +3471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readCube: {fileID: 0}
   cubeState: {fileID: 0}
+  doOnce: 1
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -7634,6 +7649,7 @@ GameObject:
   - component: {fileID: 2072672764}
   - component: {fileID: 2072672763}
   - component: {fileID: 2072672762}
+  - component: {fileID: 2072672765}
   m_Layer: 5
   m_Name: Shuffle
   m_TagString: Untagged
@@ -7755,6 +7771,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2072672760}
   m_CullTransparentMesh: 1
+--- !u!114 &2072672765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072672760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1029a8804417fd44a0a6ebd1bc44472, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shuffleButton: {fileID: 2072672762}
 --- !u!1 &2130316864
 GameObject:
   m_ObjectHideFlags: 0

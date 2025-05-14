@@ -32,14 +32,12 @@ public class CubeState : MonoBehaviour
     // 指定された面（9個）の小ブロックを、真ん中のブロックの下にまとめる
     public void PickUp(List<GameObject> cubeSide)
     {
+        Transform centerPivot = cubeSide[4].transform.parent;
+
         foreach (GameObject face in cubeSide)
         {
-            // 真ん中以外のブロックだけを移動させる
-            if (face != cubeSide[4])
-            {
-                // 2つ上の親オブジェクトを、真ん中のブロックと同じにする
-                face.transform.parent.transform.parent = cubeSide[4].transform.parent;
-            }
+            Transform parent = face.transform.parent;
+            parent.SetParent(centerPivot); // 中心ピースの親にくっつける
         }
     }
 
@@ -48,11 +46,17 @@ public class CubeState : MonoBehaviour
     {
         foreach (GameObject littleCube in littleCubes)
         {
-            // 真ん中以外のブロックだけを元に戻す
             if (littleCube != littleCubes[4])
             {
-                // もとの親（Pivot）に戻す
-                littleCube.transform.parent.transform.parent = pivot;
+                var t = littleCube.transform.parent;
+                t.transform.parent = pivot;
+
+                // わずかなズレ補正だけ追加（回転は触らない）
+                t.localPosition = new Vector3(
+                    Mathf.Round(t.localPosition.x),
+                    Mathf.Round(t.localPosition.y),
+                    Mathf.Round(t.localPosition.z)
+                );
             }
         }
     }

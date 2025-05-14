@@ -8,12 +8,15 @@ public class Automate : MonoBehaviour
     // 自動で回すときの手順（"U", "R'", などの指示）が入るリスト
     public static List<string> moveList = new List<string>();
 
+    private ShuffleButtonController shuffleButtonController;
+    private SolveButtonController solveButtonController;
+
     // キューブを回すときに使えるパターン（90度／180度／逆回転）
     private readonly List<string> allMoves = new List<string>()
     {
         "U", "D", "L", "R", "F", "B",
         "U2", "D2", "L2", "R2", "F2", "B2",
-        "U'", "D'", "L'", "R'", "F'", "B2'"
+        "U'", "D'", "L'", "R'", "F'", "B'"
     };
 
     // キューブの状態を読み取ったり面の情報をもつスクリプト
@@ -25,16 +28,25 @@ public class Automate : MonoBehaviour
     {
         readCube = FindFirstObjectByType<ReadCube>();
         cubeState = FindFirstObjectByType<CubeState>();
+        shuffleButtonController = FindFirstObjectByType<ShuffleButtonController>();
+        solveButtonController = FindFirstObjectByType<SolveButtonController>();
     }
 
     // 毎フレーム呼ばれる（登録された動きを1つずつ実行していく）
     void Update()
     {
-        // 実行する手が残っていて、まだ自動回転していなくて、ゲームが開始済みなら
+        // 実行する手がまだあるなら処理
         if (moveList.Count > 0 && !CubeState.autoRotating && CubeState.started)
         {
-            DoMove(moveList[0]);   // 一番先頭の手を実行
-            moveList.RemoveAt(0); // 終わったら削除
+            DoMove(moveList[0]);
+            moveList.RemoveAt(0);
+        }
+
+        // 全ての手が終わった後に 1 回だけ実行
+        if (moveList.Count == 0 && !CubeState.autoRotating && CubeState.started)
+        {
+            shuffleButtonController?.EnableShuffleButton();
+            solveButtonController?.EnableSolveButton();
         }
     }
 
@@ -43,8 +55,8 @@ public class Automate : MonoBehaviour
     {
         List<string> moves = new List<string>();
 
-        // 手の数は 15から29 の間でランダム
-        int shuffleLength = Random.Range(15, 30);
+        // 手の数は 10から29 の間でランダム
+        int shuffleLength = Random.Range(10, 30);
 
         for (int i = 0; i < shuffleLength; i++)
         {
@@ -53,6 +65,13 @@ public class Automate : MonoBehaviour
         }
 
         moveList = moves; // シャッフル手順を登録
+        CubeState.autoRotating = false; // 手動でフラグを false にする
+
+        // シャッフル開始と同時にボタン無効化
+        shuffleButtonController?.DisableShuffleButton();
+
+        // Solveボタンもこの時点では無効化しとくと安全
+        solveButtonController?.DisableSolveButton();
     }
 
     // 指定された動き（例："L'"）に応じて、対応する面を回す
