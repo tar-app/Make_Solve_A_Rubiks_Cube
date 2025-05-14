@@ -5,10 +5,10 @@ using System.Collections.Generic;
 
 public class Automate : MonoBehaviour
 {
-    // 自動回転に使う手順リスト
+    // 自動で回すときの手順（"U", "R'", などの指示）が入るリスト
     public static List<string> moveList = new List<string>();
 
-    // 使用可能な全ての回転手
+    // キューブを回すときに使えるパターン（90度／180度／逆回転）
     private readonly List<string> allMoves = new List<string>()
     {
         "U", "D", "L", "R", "F", "B",
@@ -16,51 +16,52 @@ public class Automate : MonoBehaviour
         "U'", "D'", "L'", "R'", "F'", "B2'"
     };
 
-    // キューブ状態読み取りと面保持の参照
+    // キューブの状態を読み取ったり面の情報をもつスクリプト
     private ReadCube readCube;
     private CubeState cubeState;
 
-    // 初期化
+    // ゲーム開始時に一度だけ呼ばれる（準備）
     void Start()
     {
         readCube = FindFirstObjectByType<ReadCube>();
         cubeState = FindFirstObjectByType<CubeState>();
     }
 
-    // 毎フレームの更新処理：moveList を順次実行
+    // 毎フレーム呼ばれる（登録された動きを1つずつ実行していく）
     void Update()
     {
-        // moveList に手があり、自動回転中でなく、ゲーム開始済なら
+        // 実行する手が残っていて、まだ自動回転していなくて、ゲームが開始済みなら
         if (moveList.Count > 0 && !CubeState.autoRotating && CubeState.started)
         {
-            DoMove(moveList[0]);  // 最初の手を実行
-            moveList.RemoveAt(0); // 実行済みの手を削除
+            DoMove(moveList[0]);   // 一番先頭の手を実行
+            moveList.RemoveAt(0); // 終わったら削除
         }
     }
 
-    // シャッフル用の手順をランダムで生成
+    // シャッフル用：ランダムな手順を作って moveList に入れる
     public void Shuffle()
     {
         List<string> moves = new List<string>();
 
-        // ランダムな長さ（10から29手）で回転手を作る
-        int shuffleLength = Random.Range(10, 30);
+        // 手の数は 15から29 の間でランダム
+        int shuffleLength = Random.Range(15, 30);
 
         for (int i = 0; i < shuffleLength; i++)
         {
             int randomMove = Random.Range(0, allMoves.Count);
-            moves.Add(allMoves[randomMove]);
+            moves.Add(allMoves[randomMove]); // ランダムに手を追加
         }
 
-        moveList = moves;
+        moveList = moves; // シャッフル手順を登録
     }
 
-    // 指定の手（文字列）に応じて該当面を回転
+    // 指定された動き（例："L'"）に応じて、対応する面を回す
     void DoMove(string move)
     {
-        readCube.ReadState();            // 状態読み取り
-        CubeState.autoRotating = true;  // 回転開始フラグON
+        readCube.ReadState();            // 状態を読み取って最新にする
+        CubeState.autoRotating = true;  // 自動で回しているフラグをONにする
 
+        // 動きの種類に応じて回す面と方向を決める
         if (move == "U") RotateSide(cubeState.up, -90f);
         if (move == "U'") RotateSide(cubeState.up, 90f);
         if (move == "U2") RotateSide(cubeState.up, -180f);
@@ -86,10 +87,13 @@ public class Automate : MonoBehaviour
         if (move == "B2") RotateSide(cubeState.back, -180f);
     }
 
-    // 回転対象の面と角度を受け取って、自動回転を呼び出す
+    // 面と角度を指定して、実際に自動回転させる（Pivot に回転を頼む）
     void RotateSide(List<GameObject> side, float angle)
     {
+        // 真ん中のブロックの親から回転処理をするスクリプトを取得
         PivotRotation pivot = side[4].transform.parent.GetComponent<PivotRotation>();
+
+        // 指定の面と角度で回転スタート
         pivot.StartAutoRotate(side, angle);
     }
 }

@@ -6,85 +6,83 @@ using UnityEngine.UI;
 
 public class CubeMap : MonoBehaviour
 {
-    // キューブの状態を保持するクラス
+    // キューブの今の状態を持っているクラス
     private CubeState cubeState;
 
-    // 各面に対応する UI 上の Transform（3×3のImageオブジェクトが子として並んでいる）
-    public Transform up;
-    public Transform down;
-    public Transform left;
-    public Transform right;
-    public Transform front;
-    public Transform back;
+    // 各面に対応する UI（3×3の色つきマスがある）
+    public Transform up;    // 上
+    public Transform down;  // 下
+    public Transform left;  // 左
+    public Transform right; // 右
+    public Transform front; // 前
+    public Transform back;  // 後ろ
 
-    // 初期化処理（未使用）
+    // ゲーム開始時に一度だけ呼ばれる（今は使っていない）
     void Start()
     {
     }
 
-    // 毎フレーム処理（未使用）
+    // 毎フレーム呼ばれる（今は使っていない）
     void Update()
     {
     }
 
-    // CubeState から各面の状態を取得して、UIに色を反映させる
+    // CubeState から各面の情報をもらって、UI の色を変える
     public void Set()
     {
-        // 現在のシーン内から CubeState を検索して取得
+        // キューブの状態を持っているスクリプトを見つける
         cubeState = FindFirstObjectByType<CubeState>();
 
-        // 各面の状態（GameObjectリスト）を取得し、UI面に反映
+        // 各面の状態を UI に反映する（3×3マスの色を更新）
         UpdateMap(cubeState.up, up);       // 上面
         UpdateMap(cubeState.down, down);   // 下面
         UpdateMap(cubeState.left, left);   // 左面
         UpdateMap(cubeState.right, right); // 右面
         UpdateMap(cubeState.front, front); // 前面
-        UpdateMap(cubeState.back, back);   // 背面
+        UpdateMap(cubeState.back, back);   // 後ろ
     }
 
-    // 指定された面の GameObject リストを UI 側に色で反映する処理
+    // ある面（例：上や前）の 3×3 の色を UI 上で塗り分ける
     void UpdateMap(List<GameObject> face, Transform side)
     {
-        // ループ用のインデックス
         int index = 0;
 
-        // side の子要素（Image）を順番に処理
+        // UI 側のマス目（Image）をひとつずつ見ていく
         foreach (Transform imageTransform in side)
         {
-            // face[index] の名前から1文字目を取得（F, B, U, D, L, R）
+            // 今見ている面のブロック名（例："F1"）の先頭文字（例：'F'）を取り出す
             char faceChar = face[index].name[0];
 
-            // Image コンポーネントを取得
+            // 色を変えるための Image パーツを取得
             Image image = imageTransform.GetComponent<Image>();
 
-            // 名前の先頭文字に応じて色を設定（完全な if 分岐）
-            if (faceChar == 'F')
+            // ブロックの名前の頭文字に応じて、UI の色を塗り分ける
+            if (faceChar == 'F') // 前面
             {
                 image.color = new Color(1f, 0.4117647f, 0.7058823f, 1f); // ピンク
             }
-            else if (faceChar == 'B')
+            else if (faceChar == 'B') // 後ろ
             {
                 image.color = Color.red;
             }
-            else if (faceChar == 'U')
+            else if (faceChar == 'U') // 上
             {
                 image.color = Color.yellow;
             }
-            else if (faceChar == 'D')
+            else if (faceChar == 'D') // 下
             {
                 image.color = Color.white;
             }
-            else if (faceChar == 'L')
+            else if (faceChar == 'L') // 左
             {
-                image.color = new Color(0.5647059f, 0.9333334f, 0.5647059f, 1f); // ライトグリーン
+                image.color = new Color(0.5647059f, 0.9333334f, 0.5647059f, 1f); // 明るい緑
             }
-            else if (faceChar == 'R')
+            else if (faceChar == 'R') // 右
             {
                 image.color = Color.blue;
             }
 
-            // 次の面へ
-            index++;
+            index++; // 次のマスに進む
         }
     }
 }

@@ -3,63 +3,58 @@ using UnityEngine.InputSystem;
 
 public class RotateBigCube : MonoBehaviour
 {
-    // 右クリックでのスワイプ開始地点
+    // 右クリックを押した最初の場所（スワイプの始まり）
     private Vector2 firstPressPos = Vector2.zero;
 
-    // スワイプ終了地点
+    // 右クリックを離した場所（スワイプの終わり）
     private Vector2 secondPressPos = Vector2.zero;
 
-    // スワイプ方向（正規化された2Dベクトル）
+    // スワイプの方向（どっちに動かしたか）
     private Vector2 currentSwipe = Vector2.zero;
 
-    // 前回のマウス位置（ドラッグ用）
+    // 前のフレームのマウスの位置（動きを比べる用）
     private Vector3 previousMousePosition = Vector3.zero;
 
-    // マウスの動き（前回との差分）
+    // マウスの動き（前と今の位置の差）
     private Vector3 mouseDelta = Vector3.zero;
 
-    // 回転対象のCube（ゲームオブジェクト）
+    // 回したいキューブ（このゲームオブジェクト）
     public GameObject target;
 
-    // 補間回転スピード
+    // 自動的に回すときの速さ
     private float speed = 200f;
 
-    // 毎フレーム実行される処理（スワイプとドラッグを監視）
+    // 毎フレーム呼ばれる（ずっと監視してる）
     void Update()
     {
-        Swipe(); // スワイプ入力を検知してCubeを瞬時に回転
-        Drag();  // ドラッグ中はCube全体を自由に回転
+        Swipe(); // スワイプでキューブをパッと回す
+        Drag();  // ドラッグ（押したまま動かす）でキューブをグルグル動かす
     }
 
-    // マウス右ボタンを押してドラッグした場合のCube回転処理
+    // 右クリックしながらマウスを動かすとキューブが回る
     void Drag()
     {
-        // 右ボタンを押している間
-        if (Mouse.current.rightButton.isPressed)
+        if (Mouse.current.rightButton.isPressed) // 右クリック押してる間
         {
-            // 現在のマウス位置を取得
             Vector3 currentMousePosition = Mouse.current.position.ReadValue();
-
-            // 現在位置と前回位置の差分を計算（＝マウスの動き）
             mouseDelta = currentMousePosition - previousMousePosition;
 
-            // X・Y軸ごとの動き
-            float deltaX = mouseDelta.x;
-            float deltaY = mouseDelta.y;
+            float deltaX = mouseDelta.x; // 横の動き
+            float deltaY = mouseDelta.y; // 縦の動き
 
-            // Cubeの回転量を計算（小さくするために0.1倍）
-            float rotationX = deltaY * 0.1f;       // 上下の動き → X軸回転
-            float rotationY = -deltaX * 0.1f;      // 左右の動き → Y軸回転（反転）
+            // マウスの動きにあわせて、キューブを回す量を決める（0.1倍でちょっとだけ回す）
+            float rotationX = deltaY * 0.1f;
+            float rotationY = -deltaX * 0.1f;
 
-            // 計算した回転量からクォータニオンを作る
+            // 回す方向を作る（上に動かせば上に回る、みたいな）
             Quaternion newRotation = Quaternion.Euler(rotationX, rotationY, 0f);
 
-            // 新しい回転を現在の回転に加算する（回し続ける）
+            // 今の回転にさらに加える（連続して回っていく）
             transform.rotation = newRotation * transform.rotation;
         }
-        else
+        else // ボタン離したとき
         {
-            // 右ボタンを離した後、Cubeをtarget方向にゆっくり補間
+            // 目標の向きに自動で戻るように少しずつ回す
             if (transform.rotation != target.transform.rotation)
             {
                 float step = speed * Time.deltaTime;
@@ -67,32 +62,32 @@ public class RotateBigCube : MonoBehaviour
             }
         }
 
-        // 毎フレーム前回マウス位置を更新
+        // マウスの位置を毎回記録しておく
         previousMousePosition = Mouse.current.position.ReadValue();
     }
 
-    // スワイプ入力の開始・終了・方向の検出と、それに応じたCubeの回転
+    // スワイプ操作（右クリック→スッと動かす）でキューブを90度カクッと回す
     void Swipe()
     {
-        // 右クリックを押した瞬間 → スワイプの始点を記録
         if (Mouse.current.rightButton.wasPressedThisFrame)
         {
+            // 右クリックした瞬間のマウス位置
             firstPressPos = Mouse.current.position.ReadValue();
         }
 
-        // 右クリックを離した瞬間 → 終点を記録し、スワイプ方向を判定
         if (Mouse.current.rightButton.wasReleasedThisFrame)
         {
+            // 離したときの位置
             secondPressPos = Mouse.current.position.ReadValue();
 
-            // スワイプベクトルを計算
+            // どっちにどれくらい動いたか
             float swipeX = secondPressPos.x - firstPressPos.x;
             float swipeY = secondPressPos.y - firstPressPos.y;
 
-            // ベクトルの長さを求める（距離）
+            // 動いた距離を計算
             float swipeLength = Mathf.Sqrt(swipeX * swipeX + swipeY * swipeY);
 
-            // 距離が0でなければ正規化する（方向だけ抽出）
+            // 距離が0じゃなければ、方向だけを取り出す
             if (swipeLength != 0f)
             {
                 currentSwipe.x = swipeX / swipeLength;
@@ -103,7 +98,7 @@ public class RotateBigCube : MonoBehaviour
                 currentSwipe = Vector2.zero;
             }
 
-            // スワイプの方向に応じてCubeを90度単位で回転
+            // スワイプの方向に応じて、キューブをそれぞれの方向に90度回す
             if (IsLeftSwipe(currentSwipe))
             {
                 target.transform.Rotate(0f, 90f, 0f, Space.World);
@@ -131,37 +126,32 @@ public class RotateBigCube : MonoBehaviour
         }
     }
 
-    // 左方向のスワイプかどうか
+    // 以下は「どっち方向にスワイプしたか」を判断する関数たち
     bool IsLeftSwipe(Vector2 swipe)
     {
         return swipe.x < 0f && swipe.y > -0.5f && swipe.y < 0.5f;
     }
 
-    // 右方向のスワイプかどうか
     bool IsRightSwipe(Vector2 swipe)
     {
         return swipe.x > 0f && swipe.y > -0.5f && swipe.y < 0.5f;
     }
 
-    // 左上方向のスワイプかどうか
     bool IsUpLeftSwipe(Vector2 swipe)
     {
         return swipe.y > 0f && swipe.x < 0f;
     }
 
-    // 右上方向のスワイプかどうか
     bool IsUpRightSwipe(Vector2 swipe)
     {
         return swipe.y > 0f && swipe.x > 0f;
     }
 
-    // 左下方向のスワイプかどうか
     bool IsDownLeftSwipe(Vector2 swipe)
     {
         return swipe.y < 0f && swipe.x < 0f;
     }
 
-    // 右下方向のスワイプかどうか
     bool IsDownRightSwipe(Vector2 swipe)
     {
         return swipe.y < 0f && swipe.x > 0f;

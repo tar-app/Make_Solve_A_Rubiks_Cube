@@ -5,69 +5,66 @@ using System.Collections.Generic;
 
 public class CubeState : MonoBehaviour
 {
-    // キューブの6面（各面9つの小キューブ）を格納するリスト
-    public List<GameObject> up = new List<GameObject>();
-    public List<GameObject> down = new List<GameObject>();
-    public List<GameObject> left = new List<GameObject>();
-    public List<GameObject> right = new List<GameObject>();
-    public List<GameObject> front = new List<GameObject>();
-    public List<GameObject> back = new List<GameObject>();
+    // キューブの6つの面。それぞれの面に9個の小さいブロックがある
+    public List<GameObject> up = new List<GameObject>();    // 上の面
+    public List<GameObject> down = new List<GameObject>();  // 下の面
+    public List<GameObject> left = new List<GameObject>();  // 左の面
+    public List<GameObject> right = new List<GameObject>(); // 右の面
+    public List<GameObject> front = new List<GameObject>(); // 前の面
+    public List<GameObject> back = new List<GameObject>();  // 後ろの面
 
-    // 自動回転中かどうかのフラグ（全体で共有される）
+    // キューブが自動で回っているかどうか（他のスクリプトと共有するため static）
     public static bool autoRotating = false;
 
-    // キューブの状態初期読み取りが完了したかのフラグ
+    // キューブの準備が終わったかどうか（trueになれば操作できる）
     public static bool started = false;
 
-    // 初期化処理（未使用）
+    // ゲームスタート時に呼ばれるが、今は使っていない
     void Start()
     {
     }
 
-    // 毎フレームの更新処理（未使用）
+    // 毎フレーム呼ばれるが、今は使っていない
     void Update()
     {
     }
 
-    // 特定の面（9個）の小キューブを、中央のキューブを軸にして親オブジェクトにまとめる
+    // 指定された面（9個）の小ブロックを、真ん中のブロックの下にまとめる
     public void PickUp(List<GameObject> cubeSide)
     {
-        // すべての小キューブに対して処理
         foreach (GameObject face in cubeSide)
         {
-            // 真ん中のキューブ（インデックス4）以外のみ処理
+            // 真ん中以外のブロックだけを移動させる
             if (face != cubeSide[4])
             {
-                // 2階層上のTransformを中央のTransformに設定（回転軸を揃える）
+                // 2つ上の親オブジェクトを、真ん中のブロックと同じにする
                 face.transform.parent.transform.parent = cubeSide[4].transform.parent;
             }
         }
     }
 
-    // 回転が終わった後、小キューブをPivotから元の親に戻す
+    // 回し終わったあとの小ブロックたちを、元の場所に戻す
     public void PutDown(List<GameObject> littleCubes, Transform pivot)
     {
-        // すべての小キューブに対して処理
         foreach (GameObject littleCube in littleCubes)
         {
-            // 中央のキューブ以外のみ処理
+            // 真ん中以外のブロックだけを元に戻す
             if (littleCube != littleCubes[4])
             {
-                // 親の親をPivotに戻す（全体の位置を戻す）
+                // もとの親（Pivot）に戻す
                 littleCube.transform.parent.transform.parent = pivot;
             }
         }
     }
 
-    // 指定された面のキューブの名前（先頭1文字）を文字列として連結して返す
+    // 指定された面のブロック名の「最初の1文字」だけをつなげた文字列を作る
     string GetSidesString(List<GameObject> side)
     {
-        // 面の状態を表す文字列を初期化
         string sideString = "";
 
-        // 各キューブの名前の先頭1文字を取得して結合
         foreach (GameObject face in side)
         {
+            // 名前の最初の文字（例: "U1" → "U"）を取り出して追加する
             char firstChar = face.name[0];
             sideString += firstChar.ToString();
         }
@@ -75,19 +72,18 @@ public class CubeState : MonoBehaviour
         return sideString;
     }
 
-    // 全体のキューブの状態を文字列として出力（Kociembaの入力フォーマット用）
+    // 全6面の状態をひとつの長い文字列にまとめて返す（解くときのデータとして使う）
     public string GetStateString()
     {
-        // 状態全体の文字列を初期化
         string stateString = "";
 
-        // 各面の文字列を順番に取得・連結
+        // 解く順番にそって、それぞれの面の状態をつなげていく
         stateString += GetSidesString(up);     // 上
         stateString += GetSidesString(right);  // 右
         stateString += GetSidesString(front);  // 前
         stateString += GetSidesString(down);   // 下
         stateString += GetSidesString(left);   // 左
-        stateString += GetSidesString(back);   // 後
+        stateString += GetSidesString(back);   // 後ろ
 
         return stateString;
     }

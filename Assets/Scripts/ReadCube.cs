@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class ReadCube : MonoBehaviour
 {
-    // 各面の中心Transform（この位置からRayを出す）
+    // キューブの6つの面の中心（ここから光を飛ばす）
     public Transform tUp;
     public Transform tDown;
     public Transform tLeft;
@@ -12,7 +12,7 @@ public class ReadCube : MonoBehaviour
     public Transform tFront;
     public Transform tBack;
 
-    // 各面に9本ずつRayを出す起点オブジェクトリスト
+    // それぞれの面から光を飛ばす9つの場所（3×3マス分）
     private List<GameObject> upRays = new List<GameObject>();
     private List<GameObject> downRays = new List<GameObject>();
     private List<GameObject> leftRays = new List<GameObject>();
@@ -20,49 +20,45 @@ public class ReadCube : MonoBehaviour
     private List<GameObject> frontRays = new List<GameObject>();
     private List<GameObject> backRays = new List<GameObject>();
 
-    // Rayがヒットしたキューブ面（デバッグ用）
+    // 飛ばした光が当たった面の記録（あとで使う）
     private List<GameObject> facesHit = new List<GameObject>();
 
-    // レイヤーマスク（レイヤー8のオブジェクトのみに当たる）
+    // 光が当たる対象を「レイヤー8」に限定する設定
     private int layerMask = 1 << 8;
 
-    // 他のクラスを参照
+    // 他のスクリプトとのやりとり用
     private CubeState cubeState;
     private CubeMap cubeMap;
 
-    // Ray起点として使う空のGameObjectプレハブ
+    // 光の出どころとして使う空のオブジェクト（あらかじめ作っておく）
     public GameObject emptyGo;
 
-    // ゲーム開始時に一度だけ実行される処理
+    // ゲームが始まったときに一度だけ実行される
     void Start()
     {
-        // 各面のRay発射準備をする
-        SetRayTransforms();
+        SetRayTransforms(); // 光を飛ばす準備をする
 
-        // CubeStateとCubeMapの参照を取得
-        cubeState = FindFirstObjectByType<CubeState>();
-        cubeMap = FindFirstObjectByType<CubeMap>();
+        cubeState = FindFirstObjectByType<CubeState>(); // キューブの色状態を持ってるスクリプト
+        cubeMap = FindFirstObjectByType<CubeMap>();     // 見た目に反映するスクリプト
 
-        // キューブの状態を読み取って保存
-        ReadState();
+        ReadState(); // キューブの色を読み取って保存する
 
-        // キューブの準備完了フラグをON
-        CubeState.started = true;
+        CubeState.started = true; // 準備ができたことを他のスクリプトに知らせる
     }
 
-    // 毎フレーム実行（ここでは使わない）
+    // 毎フレーム呼ばれる（今回は使ってない）
     void Update()
     {
     }
 
-    // 6面すべての色状態を読み取る
+    // キューブの6つの面の色を読み取る
     public void ReadState()
     {
-        // 念のため再取得（冗長だけど安全）
+        // 念のため、スクリプトをもう一度探して確認
         cubeState = FindFirstObjectByType<CubeState>();
         cubeMap = FindFirstObjectByType<CubeMap>();
 
-        // 各面の色を読み取って CubeState に保存
+        // 各面から光を飛ばして、どんな色があるかを読み取る
         cubeState.up = ReadFace(upRays, tUp);
         cubeState.down = ReadFace(downRays, tDown);
         cubeState.left = ReadFace(leftRays, tLeft);
@@ -70,40 +66,38 @@ public class ReadCube : MonoBehaviour
         cubeState.front = ReadFace(frontRays, tFront);
         cubeState.back = ReadFace(backRays, tBack);
 
-        // 読み取った状態をUI上に反映する
-        cubeMap.Set();
+        cubeMap.Set(); // 読み取った情報を見た目に反映
     }
 
-    // 各面にRay起点（9個）を作り、向きを設定する
+    // 各面の中央から光を飛ばすための起点を9つ作る
     void SetRayTransforms()
     {
-        upRays = BuildRays(tUp, new Vector3(90f, 90f, 0f));      // 上面 → 真下に向ける
-        downRays = BuildRays(tDown, new Vector3(270f, 90f, 0f)); // 下面 → 真上に向ける
-        leftRays = BuildRays(tLeft, new Vector3(0f, 180f, 0f));  // 左面 → 右向きにする
-        rightRays = BuildRays(tRight, new Vector3(0f, 0f, 0f));  // 右面 → 左向きにする
-        frontRays = BuildRays(tFront, new Vector3(0f, 90f, 0f)); // 前面 → 後ろ向き
-        backRays = BuildRays(tBack, new Vector3(0f, 270f, 0f));  // 背面 → 手前向き
+        upRays = BuildRays(tUp, new Vector3(90f, 90f, 0f));      // 上：下に光を飛ばす
+        downRays = BuildRays(tDown, new Vector3(270f, 90f, 0f)); // 下：上に光を飛ばす
+        leftRays = BuildRays(tLeft, new Vector3(0f, 180f, 0f));  // 左：右に光を飛ばす
+        rightRays = BuildRays(tRight, new Vector3(0f, 0f, 0f));  // 右：左に光を飛ばす
+        frontRays = BuildRays(tFront, new Vector3(0f, 90f, 0f)); // 前：奥に光を飛ばす
+        backRays = BuildRays(tBack, new Vector3(0f, 270f, 0f));  // 後：手前に光を飛ばす
     }
 
-    // 指定されたTransformを基準に、3x3＝9個のRay発射地点を作る
+    // 指定された位置から3×3＝9か所に光を飛ばす起点を作る
     List<GameObject> BuildRays(Transform rayTransform, Vector3 directionEuler)
     {
         int rayCount = 0;
         List<GameObject> rays = new List<GameObject>();
 
-        // 上から下（Y=1→-1）、左から右（X=-1→1）に走査
+        // 上から下、左から右に順番に作っていく
         for (int y = 1; y >= -1; y--)
         {
             for (int x = -1; x <= 1; x++)
             {
-                // 起点のローカル座標を作成
                 Vector3 startPos = new Vector3(
                     rayTransform.localPosition.x + x,
                     rayTransform.localPosition.y + y,
                     rayTransform.localPosition.z
                 );
 
-                // 空のオブジェクトを生成してRay起点にする
+                // 空オブジェクトを置いて、そこから光を飛ばすようにする
                 GameObject rayStart = Instantiate(emptyGo, startPos, Quaternion.identity, rayTransform);
                 rayStart.name = rayCount.ToString();
 
@@ -112,40 +106,37 @@ public class ReadCube : MonoBehaviour
             }
         }
 
-        // Rayの向きを決める回転をTransformに反映
+        // 光の向きを決めておく
         rayTransform.localRotation = Quaternion.Euler(directionEuler);
 
         return rays;
     }
 
-    // 1面分（9個）のRayを飛ばし、それぞれヒットしたキューブ面を返す
+    // 指定された面の9か所から光を飛ばして、ぶつかったパネルを調べる
     public List<GameObject> ReadFace(List<GameObject> rayStarts, Transform rayTransform)
     {
         List<GameObject> facesHit = new List<GameObject>();
 
-        // 9個すべてのRay起点に対してループ
         foreach (GameObject rayStart in rayStarts)
         {
-            // Rayを飛ばすスタート位置を取得
             Vector3 rayOrigin = rayStart.transform.position;
 
-            // Rayのヒット情報を格納する変数
             RaycastHit hit;
 
-            // RayをTransform.forward方向に無限長で飛ばす（レイヤー制限付き）
+            // forward方向（まっすぐ）に光を飛ばす
             bool didHit = Physics.Raycast(rayOrigin, rayTransform.forward, out hit, Mathf.Infinity, layerMask);
 
             if (didHit)
             {
-                // Rayが何かに当たった場合 → 線を黄色で描画（デバッグ用）
+                // 何かに当たったら黄色い線を描く（見た目用）
                 Debug.DrawRay(rayOrigin, rayTransform.forward * hit.distance, Color.yellow);
 
-                // ヒットしたGameObject（面）をリストに追加
+                // 当たった面を記録する
                 facesHit.Add(hit.collider.gameObject);
             }
             else
             {
-                // 何も当たらなかった場合 → 線を緑色で長く描画
+                // 何も当たらなかったら緑色の長い線を出す（デバッグ用）
                 Debug.DrawRay(rayOrigin, rayTransform.forward * 1000f, Color.green);
             }
         }

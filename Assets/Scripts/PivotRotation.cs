@@ -4,187 +4,166 @@ using System.Collections.Generic;
 
 public class PivotRotation : MonoBehaviour
 {
-    // 現在回転対象となっている面（9個の小Cube）
+    // 今回回す面（9つのブロック）
     private List<GameObject> activeSide;
 
-    // マウスの基準位置（前フレーム）
+    // 前のマウスの位置（動きを調べるために記録しておく）
     private Vector2 mouseRef;
 
-    // マウスドラッグ中かどうか
+    // プレイヤーがマウスでドラッグしているかどうか
     private bool dragging = false;
 
-    // 自動回転処理中かどうか
+    // 自動的に回している最中かどうか
     private bool autoRotating = false;
 
-    // マウス感度（回転の速さを決める）
+    // マウスをどれくらい動かしたらどれくらい回るか（感度）
     private float sensitivity = 0.4f;
 
-    // 自動回転スピード
+    // 自動で回るときの速さ
     private float speed = 300f;
 
-    // このフレームでの回転量
+    // 1フレーム分の回転量（X, Y, Z）
     private Vector3 rotation;
 
-    // 自動回転の目標角度
+    // 回すべき目標の角度（ここに向かって回していく）
     private Quaternion targetQuaternion;
 
-    // 外部クラスへの参照（キューブ状態とリーダー）
+    // キューブの状態を読み取ったり管理したりするスクリプト
     private ReadCube readCube;
     private CubeState cubeState;
 
-    // 初期化処理：他クラスを検索して参照を取得
+    // ゲーム開始時に一度だけ呼ばれる
     void Start()
     {
+        // 他のスクリプトを見つけて使えるようにする
         readCube = FindFirstObjectByType<ReadCube>();
         cubeState = FindFirstObjectByType<CubeState>();
     }
 
-    // 毎フレーム末尾に実行される処理（回転制御）
+    // 毎フレームの最後に呼ばれる（回転処理をここで実行）
     void LateUpdate()
     {
-        // プレイヤーによるドラッグ回転
+        // マウスでドラッグ中かつ自動回転していない場合
         if (dragging == true && autoRotating == false)
         {
-            SpinSide(activeSide); // マウスに応じて面回転
+            SpinSide(activeSide); // マウスの動きに応じて面を回す
 
-            // マウスボタンを離したらスナップ処理開始
+            // マウスを離したら、自動で90度にピッタリ調整する
             if (Mouse.current.leftButton.wasReleasedThisFrame)
             {
                 dragging = false;
-                RotateToRightAngle(); // 90度単位に調整
+                RotateToRightAngle();
             }
         }
 
-        // 自動回転中の補間処理
+        // 自動回転しているとき（シャッフルや解くとき）
         if (autoRotating == true)
         {
-            AutoRotate();
+            AutoRotate(); // 目標の角度に近づけていく
         }
     }
 
-    // プレイヤーのマウス移動による回転処理
+    // マウスを動かして回す処理（プレイヤー操作）
     private void SpinSide(List<GameObject> side)
     {
-        // 回転ベクトル初期化
-        rotation = Vector3.zero;
+        rotation = Vector3.zero; // 回転の初期化
 
-        // 現在のマウス位置と前回の差分を取得
+        // 今のマウス位置と前の位置の差を計算
         Vector2 currentMousePos = Mouse.current.position.ReadValue();
         Vector2 mouseOffset = currentMousePos - mouseRef;
 
-        // XとYの合計移動量に感度をかける
+        // 動いた量（横＋縦）×感度で回転の強さを決める
         float combinedOffset = mouseOffset.x + mouseOffset.y;
         float rotationAmount = combinedOffset * sensitivity;
 
-        // 面の種類に応じて回転軸を決定
+        // どの面を回すかによって、回す軸を変える
         if (side == cubeState.up)
-        {
             rotation.y = rotationAmount;
-        }
         else if (side == cubeState.down)
-        {
             rotation.y = -rotationAmount;
-        }
         else if (side == cubeState.left)
-        {
             rotation.z = rotationAmount;
-        }
         else if (side == cubeState.right)
-        {
             rotation.z = -rotationAmount;
-        }
         else if (side == cubeState.front)
-        {
             rotation.x = -rotationAmount;
-        }
         else if (side == cubeState.back)
-        {
             rotation.x = rotationAmount;
-        }
 
-        // 自身をローカル軸で回転させる
+        // 自分自身（Pivot）を回転させる
         transform.Rotate(rotation, Space.Self);
 
-        // マウス基準位置を更新
+        // マウス位置を更新して次回比較できるようにする
         mouseRef = currentMousePos;
     }
 
-    // プレイヤーの操作によって回転を開始
+    // プレイヤーが面を選んで回そうとしたときに呼ばれる
     public void Rotate(List<GameObject> side)
     {
-        // 回転対象を記録
-        activeSide = side;
-
-        // 現在のマウス位置を記録
-        mouseRef = Mouse.current.position.ReadValue();
-
-        // ドラッグ開始
-        dragging = true;
+        activeSide = side; // 今回回す面を記録
+        mouseRef = Mouse.current.position.ReadValue(); // 今のマウス位置を記録
+        dragging = true; // ドラッグ開始！
     }
 
-    // 指定角度で自動回転を開始する（シャッフルや解法用）
+    // 解く処理やシャッフルで自動的に回すときに呼ばれる
     public void StartAutoRotate(List<GameObject> side, float angle)
     {
-        // 対象の小Cubeを一時的にPivotの子にする
+        // 今回回す面のブロックたちをひとつにまとめる（回しやすくする）
         cubeState.PickUp(side);
 
-        // 回転軸を中央キューブの逆ベクトルで決定
+        // 中央のブロックの位置を使って、回す方向を決める
         Vector3 centerPosition = side[4].transform.parent.transform.localPosition;
         Vector3 rotationAxis = Vector3.zero - centerPosition;
 
-        // 指定角度の回転クォータニオンを作成
+        // 回す角度と方向から、目標の向きを作る
         Quaternion rotationQuat = Quaternion.AngleAxis(angle, rotationAxis);
-
-        // 現在の回転に掛けて目標回転を決定
         targetQuaternion = rotationQuat * transform.localRotation;
 
         activeSide = side;
-        autoRotating = true;
+        autoRotating = true; // 自動回転をスタート
     }
 
-    // 現在の回転を最も近い90度単位に調整する処理
+    // 回し終わるときに、ちょうど90度にピタッとそろえる
     public void RotateToRightAngle()
     {
-        // 現在の角度（オイラー角）を取得
+        // 今の角度を数値で取得
         Vector3 currentEuler = transform.localEulerAngles;
 
-        // 各軸の角度を90度単位で丸める
+        // それぞれの軸（X,Y,Z）を90度の倍数に丸める
         currentEuler.x = Mathf.Round(currentEuler.x / 90f) * 90f;
         currentEuler.y = Mathf.Round(currentEuler.y / 90f) * 90f;
         currentEuler.z = Mathf.Round(currentEuler.z / 90f) * 90f;
 
-        // 丸めた角度から目標回転を作成
+        // 目標となる角度を作る
         targetQuaternion = Quaternion.Euler(currentEuler);
 
-        autoRotating = true;
+        autoRotating = true; // 自動でその角度に近づけていく
     }
 
-    // 自動回転の補間処理（毎フレーム呼ばれる）
+    // 自動回転中の処理（毎フレーム呼ばれてだんだん近づける）
     private void AutoRotate()
     {
-        // 手動操作を禁止
-        dragging = false;
+        dragging = false; // 手動操作はできなくする
 
-        // 回転補間ステップ量を計算
-        float step = speed * Time.deltaTime;
+        float step = speed * Time.deltaTime; // 今回の回転量を計算
 
-        // 現在の回転を目標回転へ近づける
+        // 今の向きを、目標の向きに少しずつ近づける
         transform.localRotation = Quaternion.RotateTowards(transform.localRotation, targetQuaternion, step);
 
-        // 目標角との差が1度以下なら完了
+        // 角度の差が1度以下になったら完了とみなす
         float angleDifference = Quaternion.Angle(transform.localRotation, targetQuaternion);
         if (angleDifference <= 1f)
         {
-            // 正確な角度に補正
+            // 最終的な位置を目標にピタッと合わせる
             transform.localRotation = targetQuaternion;
 
-            // 小Cubeたちを元の親に戻す
+            // 回していた面を元の場所に戻す
             cubeState.PutDown(activeSide, transform.parent);
 
-            // 状態を再読み込み（面構成の更新）
+            // キューブ全体の情報をもう一度読み取り直す
             readCube.ReadState();
 
-            // 全フラグを解除して終了
+            // フラグをリセット（操作できるように戻す）
             CubeState.autoRotating = false;
             autoRotating = false;
             dragging = false;
