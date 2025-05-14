@@ -9,7 +9,6 @@ public class ShuffleButtonController : MonoBehaviour
     // ゲーム開始時に一度だけ呼ばれる
     void Start()
     {
-
         // ボタンがちゃんと指定されていれば、有効にする
         if (shuffleButton != null)
         {

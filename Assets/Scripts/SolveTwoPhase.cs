@@ -2,25 +2,23 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
-using Kociemba; // 2段階解法ライブラリ
-using JetBrains.Annotations; // （実行には不要。エディタ補助用）
+using Kociemba;
+using JetBrains.Annotations;
 
 public class SolveTwoPhase : MonoBehaviour
 {
-    // キューブ状態読み取り用
     public ReadCube readCube;
-
-    // キューブ面情報保持クラス
     public CubeState cubeState;
+    private ShuffleButtonController shuffleButtonController;
+    private SolveButtonController solveButtonController;
+    public bool doOnce = true; // Solver() を1回だけ実行するためのフラグ
 
-    // Solver() を1回だけ実行するためのフラグ
-    public bool doOnce = true;
-
-    // 初期化：各クラスの参照を取得
     void Start()
     {
         readCube = FindFirstObjectByType<ReadCube>();
         cubeState = FindFirstObjectByType<CubeState>();
+        shuffleButtonController = FindFirstObjectByType<ShuffleButtonController>();
+        solveButtonController = FindFirstObjectByType<SolveButtonController>();
     }
 
     // 毎フレーム実行される処理
@@ -41,6 +39,12 @@ public class SolveTwoPhase : MonoBehaviour
     // 2段階法による解法を計算する処理
     public void Solver()
     {
+        // シャッフル開始と同時にボタン無効化
+        shuffleButtonController?.DisableShuffleButton();
+
+        // シャッフル開始と同時にボタン無効化
+        solveButtonController?.DisableSolveButton();
+
         // 最新のキューブ状態を取得
         readCube.ReadState();
 

@@ -5,11 +5,14 @@ using System.Collections.Generic;
 
 public class Automate : MonoBehaviour
 {
-    // 自動で回すときの手順（"U", "R'", などの指示）が入るリスト
-    public static List<string> moveList = new List<string>();
-
+    private ReadCube readCube;
+    private CubeState cubeState;
     private ShuffleButtonController shuffleButtonController;
     private SolveButtonController solveButtonController;
+    private bool isShuffling = false;　// シャッフル実行中かどうかを示す内部フラグ（解法と区別するため）
+
+    // 自動で回すときの手順（"U", "R'", などの指示）が入るリスト
+    public static List<string> moveList = new List<string>();
 
     // キューブを回すときに使えるパターン（90度／180度／逆回転）
     private readonly List<string> allMoves = new List<string>()
@@ -18,10 +21,6 @@ public class Automate : MonoBehaviour
         "U2", "D2", "L2", "R2", "F2", "B2",
         "U'", "D'", "L'", "R'", "F'", "B'"
     };
-
-    // キューブの状態を読み取ったり面の情報をもつスクリプト
-    private ReadCube readCube;
-    private CubeState cubeState;
 
     // ゲーム開始時に一度だけ呼ばれる（準備）
     void Start()
@@ -35,18 +34,25 @@ public class Automate : MonoBehaviour
     // 毎フレーム呼ばれる（登録された動きを1つずつ実行していく）
     void Update()
     {
-        // 実行する手がまだあるなら処理
+        // まだ回す手順が残っていて、現在回転中でなければ、次の手を実行する
         if (moveList.Count > 0 && !CubeState.autoRotating && CubeState.started)
         {
-            DoMove(moveList[0]);
-            moveList.RemoveAt(0);
+            DoMove(moveList[0]); // 次の手を実行
+            moveList.RemoveAt(0); // 実行した手をリストから削除
         }
 
-        // 全ての手が終わった後に 1 回だけ実行
+        // 全ての回転が終わったあと（最後の手を回し終えた瞬間）に一度だけ呼ばれる
         if (moveList.Count == 0 && !CubeState.autoRotating && CubeState.started)
         {
+            // シャッフルボタンを再び有効にする（操作可能に戻す）
             shuffleButtonController?.EnableShuffleButton();
-            solveButtonController?.EnableSolveButton();
+
+            // シャッフルの完了時のみ Solveボタンを再び有効にする
+            if (isShuffling)
+            {
+                solveButtonController?.EnableSolveButton();
+                isShuffling = false;
+            }
         }
     }
 
@@ -65,12 +71,13 @@ public class Automate : MonoBehaviour
         }
 
         moveList = moves; // シャッフル手順を登録
-        CubeState.autoRotating = false; // 手動でフラグを false にする
+        CubeState.autoRotating = false; // キューブが自動で回っている最中かどうかを示すフラグ（false = 手動）
+        isShuffling = true; // ← シャッフル中かどうかを示すフラグ（true = シャッフル中）
 
         // シャッフル開始と同時にボタン無効化
         shuffleButtonController?.DisableShuffleButton();
 
-        // Solveボタンもこの時点では無効化しとくと安全
+        // シャッフル開始と同時にボタン無効化
         solveButtonController?.DisableSolveButton();
     }
 

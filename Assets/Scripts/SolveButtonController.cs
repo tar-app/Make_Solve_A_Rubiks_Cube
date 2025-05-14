@@ -7,12 +7,18 @@ public class SolveButtonController : MonoBehaviour
     [SerializeField] private Button solveButton;
 
     // ゲーム開始時に一度だけ呼ばれる
-    void Start()
+    void Awake()
     {
         // ボタンがセットされていれば、最初は押せないようにする
         if (solveButton != null)
         {
             solveButton.interactable = false;
+            Debug.Log("[SolveButtonController] Solve button set to not interactable.");
+        }
+
+        else
+        {
+            Debug.LogWarning("[SolveButtonController] solveButton is NULL");
         }
     }
 

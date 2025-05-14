@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public class PivotRotation : MonoBehaviour
 {
+    private ReadCube readCube;
+    private CubeState cubeState;
+    private ShuffleButtonController shuffleButtonController;
+    private SolveButtonController solveButtonController;
+
     // 今回回す面（9つのブロック）
     private List<GameObject> activeSide;
 
@@ -28,17 +33,12 @@ public class PivotRotation : MonoBehaviour
     // 回すべき目標の角度（ここに向かって回していく）
     private Quaternion targetQuaternion;
 
-    // キューブの状態を読み取ったり管理したりするスクリプト
-    private ReadCube readCube;
-    private CubeState cubeState;
-    private SolveButtonController solveButtonController;
-
     // ゲーム開始時に一度だけ呼ばれる
     void Start()
     {
-        // 他のスクリプトを見つけて使えるようにする
         readCube = FindFirstObjectByType<ReadCube>();
         cubeState = FindFirstObjectByType<CubeState>();
+        shuffleButtonController = FindFirstObjectByType<ShuffleButtonController>();
         solveButtonController = FindFirstObjectByType<SolveButtonController>();
     }
 
@@ -123,7 +123,8 @@ public class PivotRotation : MonoBehaviour
         targetQuaternion = Quaternion.Euler(currentEuler);
         autoRotating = true;
 
-        solveButtonController?.EnableSolveButton(); // ← ここを修正
+        // プレイヤーが面を回したあとにSolveボタンを有効にする（仕様通り）
+        solveButtonController?.EnableSolveButton();
     }
 
     // 自動回転中の処理（毎フレーム呼ばれてだんだん近づける）
